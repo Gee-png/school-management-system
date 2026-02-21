@@ -39,6 +39,17 @@ module.exports = class UserServer {
                 message: 'Something went wrong',
             });
         });
+
+        /** Welcome route */
+        app.get('/', (req, res) => {
+            res.json({
+                ok: true,
+                message: 'School Management System API',
+                version: '1.0.0',
+                endpoints: '/api/:moduleName/:fnName',
+                documentation: 'See README.md for API documentation'
+            });
+        });
         
         /** a single middleware to handle all */
         app.all('/api/:moduleName/:fnName/:id?', this.userApi.mw);

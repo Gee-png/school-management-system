@@ -527,11 +527,7 @@ All error responses follow this shape:
    - Click **"Create Web Service"**
    - Render will automatically build and deploy your app (~3-5 minutes)
    - You'll get a public URL like: `https://school-management-api.onrender.com`
-
-7. **Seed Superadmin**
-   After deployment, run the seed script once:
-   - Go to Render dashboard → Your service → **"Shell"** tab
-   - Run: `npm run seed`
+   - **Superadmin is created automatically on first startup**
 
 #### Post-Deployment
 - Your API is now live at: `https://your-app-name.onrender.com`
