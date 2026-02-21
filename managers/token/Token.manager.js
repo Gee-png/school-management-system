@@ -9,8 +9,7 @@ module.exports = class TokenManager {
         this.config              = config;
         this.longTokenExpiresIn  = '3y';
         this.shortTokenExpiresIn = '1y';
-
-        this.httpExposed         = ['v1_createShortToken'];
+        this.httpExposed         = ['v1_createShortToken']; // exposed functions
     }
 
     /** 
@@ -25,20 +24,22 @@ module.exports = class TokenManager {
      * long token contains immutable data and long lived
      * master key must exists on any device to create short tokens
      */
-    genLongToken({userId, userKey}){
+    genLongToken({ userKey, userId, role, schoolId}){
         return jwt.sign(
             { 
                 userKey, 
                 userId,
+                role,
+                schoolId,
             }, 
             this.config.dotEnv.LONG_TOKEN_SECRET, 
             {expiresIn: this.longTokenExpiresIn
         })
     }
 
-    genShortToken({userId, userKey, sessionId, deviceId}){
+    genShortToken({ userKey, userId, sessionId, deviceId, role, schoolId }){
         return jwt.sign(
-            { userKey, userId, sessionId, deviceId}, 
+            { userKey, userId, sessionId, deviceId, role, schoolId }, 
             this.config.dotEnv.SHORT_TOKEN_SECRET, 
             {expiresIn: this.shortTokenExpiresIn
         })
@@ -55,21 +56,26 @@ module.exports = class TokenManager {
     verifyLongToken({token}){
         return this._verifyToken({token, secret: this.config.dotEnv.LONG_TOKEN_SECRET,})
     }
+    
     verifyShortToken({token}){
         return this._verifyToken({token, secret: this.config.dotEnv.SHORT_TOKEN_SECRET,})
     }
 
 
     /** generate shortId based on a longId */
-    v1_createShortToken({__longToken, __device}){
+    v1_createShortToken({__headers, __device}){
+        const token = __headers.token;
+        if(!token)return {error: 'missing token '};
+        console.log('found token', token);
 
-
-        let decoded = __longToken;
-        console.log(decoded);
+        let decoded = this.verifyLongToken({ token });
+        if(!decoded){ return {error: 'invalid'} };
         
         let shortToken = this.genShortToken({
             userId: decoded.userId, 
             userKey: decoded.userKey,
+            role:      decoded.role,
+            schoolId:  decoded.schoolId,
             sessionId: nanoid(),
             deviceId: md5(__device),
         });

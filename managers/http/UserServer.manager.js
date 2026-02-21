@@ -1,6 +1,7 @@
 const http              = require('http');
 const express           = require('express');
 const cors              = require('cors');
+const rateLimit   = require('express-rate-limit');
 const app               = express();
 
 module.exports = class UserServer {
@@ -21,14 +22,26 @@ module.exports = class UserServer {
         app.use(express.urlencoded({ extended: true}));
         app.use('/static', express.static('public'));
 
-        /** an error handler */
+        /** Rate limiting */
+        app.use(rateLimit({
+            windowMs: 60 * 1000,
+            max: 100,
+            message: { ok: false, data: {}, errors: ['too many requests'], message: 'slow down' }
+        }));
+
+        /** Global error handler */
         app.use((err, req, res, next) => {
-            console.error(err.stack)
-            res.status(500).send('Something broke!')
+            console.error(err.stack);
+            res.status(500).send({
+                ok: false,
+                data: {},
+                errors: ['internal server error'],
+                message: 'Something went wrong',
+            });
         });
         
         /** a single middleware to handle all */
-        app.all('/api/:moduleName/:fnName', this.userApi.mw);
+        app.all('/api/:moduleName/:fnName/:id?', this.userApi.mw);
 
         let server = http.createServer(app);
         server.listen(this.config.dotEnv.USER_PORT, () => {

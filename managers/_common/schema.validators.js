@@ -5,4 +5,7 @@ module.exports = {
         }
         return true;
     },
+    'role': (data) => {
+        return ['superadmin', 'school_admin'].includes(data);
+    },
 }

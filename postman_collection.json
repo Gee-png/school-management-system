@@ -1,0 +1,390 @@
+{
+  "info": {
+    "_postman_id": "school-management-system-api-001",
+    "name": "School Management System API",
+    "description": "Complete API endpoints for school management system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"admin@example.com\", \"password\": \"password123\"}"
+            },
+            "url": "{{base_url}}/api/user/v1_login"
+          }
+        },
+        {
+          "name": "Create Short Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{longToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": "{{base_url}}/api/token/v1_createShortToken"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schools",
+      "item": [
+        {
+          "name": "Create School",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Central High School\", \"address\": \"123 Main St\", \"email\": \"school@example.com\", \"phone\": \"+1-555-0123\"}"
+            },
+            "url": "{{base_url}}/api/school/v1_createSchool"
+          }
+        },
+        {
+          "name": "Get School",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/school/v1_getSchool/{{schoolId}}"
+          }
+        },
+        {
+          "name": "List Schools",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/school/v1_listSchools"
+          }
+        },
+        {
+          "name": "Update School",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Updated School\", \"address\": \"456 Oak Ave\", \"email\": \"updated@example.com\", \"phone\": \"+1-555-0456\"}"
+            },
+            "url": "{{base_url}}/api/school/v1_updateSchool/{{schoolId}}"
+          }
+        },
+        {
+          "name": "Delete School",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/school/v1_deleteSchool/{{schoolId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Classrooms",
+      "item": [
+        {
+          "name": "Create Classroom",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Grade 10-A\", \"capacity\": 35, \"resources\": [\"projector\", \"whiteboard\"], \"schoolId\": \"{{schoolId}}\"}"
+            },
+            "url": "{{base_url}}/api/classroom/v1_createClassroom"
+          }
+        },
+        {
+          "name": "Get Classroom",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/classroom/v1_getClassroom/{{classroomId}}"
+          }
+        },
+        {
+          "name": "List Classrooms",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/classroom/v1_listClassrooms?schoolId={{schoolId}}"
+          }
+        },
+        {
+          "name": "Update Classroom",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Grade 10-A Advanced\", \"capacity\": 40, \"resources\": [\"projector\", \"whiteboard\", \"computers\"]}"
+            },
+            "url": "{{base_url}}/api/classroom/v1_updateClassroom/{{classroomId}}"
+          }
+        },
+        {
+          "name": "Delete Classroom",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/classroom/v1_deleteClassroom/{{classroomId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"John Doe\", \"email\": \"john@school.edu\", \"schoolId\": \"{{schoolId}}\", \"classroomId\": \"{{classroomId}}\"}"
+            },
+            "url": "{{base_url}}/api/student/v1_createStudent"
+          }
+        },
+        {
+          "name": "Get Student",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/student/v1_getStudent/{{studentId}}"
+          }
+        },
+        {
+          "name": "List Students",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/student/v1_listStudents?schoolId={{schoolId}}"
+          }
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"John Updated\", \"email\": \"john.updated@school.edu\"}"
+            },
+            "url": "{{base_url}}/api/student/v1_updateStudent/{{studentId}}"
+          }
+        },
+        {
+          "name": "Delete Student",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "url": "{{base_url}}/api/student/v1_deleteStudent/{{studentId}}"
+          }
+        },
+        {
+          "name": "Transfer Student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"classroomId\": \"{{classroomId}}\"}"
+            },
+            "url": "{{base_url}}/api/student/v1_transferStudent/{{studentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{shortToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"newadmin\", \"email\": \"newadmin@example.com\", \"password\": \"securepass123\", \"role\": \"school_admin\", \"schoolId\": \"{{schoolId}}\"}"
+            },
+            "url": "{{base_url}}/api/user/v1_createUser"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "longToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "shortToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "schoolId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "classroomId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "studentId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
